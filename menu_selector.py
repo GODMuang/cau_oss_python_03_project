@@ -16,8 +16,8 @@ def start_process(path):
     Examples:
         start_process("./input/free_parking_spot_seoul.csv") # 해당 경로의 데이터를 분석
     """
-    classStr = file_manager.read_file(path) #파일을 읽어 스트링 받아오기
-    classList = parking_spot_manager.str_list_to_class_list(classStr) #스트링으로 클래스 생성
+    spotsStr = file_manager.read_file(path) #파일을 읽어 스트링 받아오기
+    spots = parking_spot_manager.str_list_to_class_list(spotsStr) #스트링으로 클래스 생성
     while True:
         print("---menu---")
         print("[1] print")
@@ -27,7 +27,7 @@ def start_process(path):
         select = int(input('type:'))
         # print
         if select == 1: 
-            parking_spot_manager.print_spots(classList)
+            parking_spot_manager.print_spots(spots)
 
         # filter
         elif select == 2: 
@@ -38,29 +38,30 @@ def start_process(path):
             print("[4] ptype")
             print("[5] location")
             select = int(input('type:'))
+            #filter by name
             if select == 1:
                 keyword = input('type name:')
-                print("not implemented yet")
-                # fill this block
+                spots = parking_spot_manager.filter_by_name(spots, keyword)
+            #filter by city
             elif select == 2:
                 keyword = input('type city:')
-                print("not implemented yet")
-                # fill this block
+                spots = parking_spot_manager.filter_by_city(spots, keyword)
+            #filter by district
             elif select == 3:
                 keyword = input('type district:')
-                print("not implemented yet")
-                # fill this block
+                spots = parking_spot_manager.filter_by_district(spots, keyword)
+            #filter by ptype
             elif select == 4:
                 keyword = input('type ptype:')
-                print("not implemented yet")
-                # fill this block
+                spots = parking_spot_manager.filter_by_ptype(spots, keyword)
+            #filter by location
             elif select == 5:
                 min_lat = float(input('type min lat:'))
                 max_lat = float(input('type max lat:'))
                 min_lon = float(input('type min long:'))
                 max_lon = float(input('type max long:'))
-                print("not implemented yet")
-                # fill this block
+                location = (min_lat, max_lat, min_lon, max_lon)
+                spots = parking_spot_manager.filter_by_location(spots,location)
             else:
                 print("invalid input")
         

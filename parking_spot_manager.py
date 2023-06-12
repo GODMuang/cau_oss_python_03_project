@@ -17,10 +17,10 @@ class parking_spot:
         """
         생성자에서 __item에 저장할 주차장 정보를 받습니다.
         Args:
-            name(string):       주차장 이름
-            city(string):       도시명
-            district(string):   도시의 구역
-            ptype(string):      주차장 타입
+            name(string):       자원명 (주차장 이름)
+            city(string):       시도 (도시명)
+            district(string):   시군구 (도시의 구역)
+            ptype(string):      주차장 유형
             longitude(float):  경도
             latitude(float):   위도
         """
@@ -83,16 +83,103 @@ def print_spots(spots):
     for oneClass in spots:
         print(oneClass)
 
+def filter_by_name(spots, name):
+    """
+    parking_spot 클래스 객체리스트[spots]와 이름[name]을 매개변수로 받아,
+    name 매개변수의 내용이 이름영역의 값에 포함된 객체만 필터링하여 반환
+    Args:
+        spots(parking_spot Class list) :            주차장데이터 객체
+        name(string)  :                             필터링 조건이 될 글자
+    Returns:
+        filtered_spots ((parking_spot Class list)) : 필터링된 주차장데이터 객체
+    Examples:
+        >>> spots = filter_by_name(spots, "대학교")
+    """    
+    filtered_spots = [spot for spot in spots if spot.get('name').find(name) != -1]
+    return filtered_spots
+
+def filter_by_city(spots, city):
+    """
+    parking_spot 클래스 객체리스트[spots]와 시도[city]을 매개변수로 받아,
+    city 매개변수의 내용이 시도영역의 값에 포함된 객체만 필터링하여 반환
+    Args:
+        spots(parking_spot Class list) :            주차장데이터 객체
+        city(string)  :                             필터링 조건이 될 글자
+    Returns:
+        filtered_spots ((parking_spot Class list)) : 필터링된 주차장데이터 객체
+    Examples:
+        >>> spots = filter_by_city(spots, "인천")
+    """    
+    filtered_spots = [spot for spot in spots if spot.get('city').find(city) != -1]
+    return filtered_spots
+
+def filter_by_district(spots, district):
+    """
+    parking_spot 클래스 객체리스트[spots]와 시군구[district]을 매개변수로 받아,
+    district 매개변수가 시군구영역의 값에 포함된 객체만 필터링하여 반환
+    Args:
+        spots(parking_spot Class list) :            주차장데이터 객체
+        district(string)  :                         필터링 조건이 될 글자
+    Returns:
+        filtered_spots ((parking_spot Class list)) : 필터링된 주차장데이터 객체
+    Examples:
+        >>> spots = filter_by_city(spots, "동작")
+    """    
+    filtered_spots = [spot for spot in spots if spot.get('district').find(district) != -1]
+    return filtered_spots
+
+def filter_by_ptype(spots, ptype):
+    """
+    parking_spot 클래스 객체리스트[spots]와 주차장유형[ptype]을 매개변수로 받아,
+    ptype 매개변수가 주차장유형 영역의 값에 포함된 객체만 필터링하여 반환
+    Args:
+        spots(parking_spot Class list) :            주차장데이터 객체
+        ptype(string)  :                         필터링 조건이 될 글자
+    Returns:
+        filtered_spots ((parking_spot Class list)) : 필터링된 주차장데이터 객체
+    Examples:
+        >>> spots = filter_by_city(spots, "동작")
+    """    
+    filtered_spots = [spot for spot in spots if spot.get('ptype').find(ptype) != -1]
+    return filtered_spots
+
+def filter_by_location(spots, locations):
+    """
+    parking_spot 클래스 객체리스트[spots]와 위치[locations] 튜플을 매개변수로 받아,
+    위치 locations 매개변수 조건에 적합한 객체만 필터링하여 반환
     
+    locations에는 (최소위도, 최대위도, 최소경도,최대경도)가 포함되어있으며
+    최소위도 < 객체의 위도 < 최대위도
+    최소경도 < 객체의 경도 < 최대경도 조건에 부합하는 객체만 필터링하여 반환됨.
+
+    Args:
+        spots(parking_spot Class list) :            주차장데이터 객체
+        location(float tuple)  :                    필터링 조건이 될 float 튜플
+    Returns:
+        filtered_spots ((parking_spot Class list)) : 필터링된 주차장데이터 객체
+    Examples:
+        >>> spots = filter_by_city(spots, (35.5, 36.5, 127.5, 128.5))
+    """ 
+    #파라미터로 넘어온 튜플을 다시 꺼냄
+    min_lat = locations[0]
+    max_lat = locations[1]
+    min_long = locations[2]
+    max_long = locations[3]
+
+    filtered_spots = [spot for spot in spots \
+                      if ((min_lat < spot.get('latitude')) and (spot.get('latitude') < max_lat)) and \
+                        ((min_long < spot.get('longitude')) and (spot.get('longitude') < max_long))]
+    return filtered_spots
+
 
 # 각 단계별로 테스트 (테스트할때 주석해제 후 사용)
 if __name__ == '__main__':
     print("Testing the module...")
     # version#2
-    import file_manager
-    str_list = file_manager.read_file("./input/free_parking_spot_seoul.csv")
-    spots = str_list_to_class_list(str_list)
-    print_spots(spots)
+    # import file_manager
+    # str_list = file_manager.read_file("./input/free_parking_spot_seoul.csv")
+    # spots = str_list_to_class_list(str_list)
+    # print_spots(spots)
 
     # version#3
     # spots = filter_by_district(spots, '동작')
