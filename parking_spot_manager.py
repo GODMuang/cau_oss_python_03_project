@@ -168,9 +168,27 @@ def filter_by_location(spots, locations):
 
     filtered_spots = [spot for spot in spots \
                       if ((min_lat < spot.get('latitude')) and (spot.get('latitude') < max_lat)) and \
-                        ((min_long < spot.get('longitude')) and (spot.get('longitude') < max_long))]
+                        ((min_long < spot.get('longitude')) and (spot.get('latitude') < max_long))]
     return filtered_spots
 
+def sort_by_keyword(spots, keyword):
+    """
+    parking_spot 클래스 객체리스트[spots]와 keyword 문자열을 매개변수로 받아,
+    keyword를 기준으로 정렬을 수행 후 반환
+    
+    Args:
+        spots(parking_spot Class list) :            주차장데이터 객체
+        keyword(string)  :                          정렬기준이 될 문자열
+    Returns:
+        spots ((parking_spot Class list)) : w정렬된 주차장데이터 객체
+    Examples:
+        >>> spots = sort_by_keyword(spots,keyword)
+    """ 
+    #참조 링크 : https://cigiko.cafe24.com/python-%EC%A0%95%EB%A0%AC%ED%95%98%EA%B8%B0-sort%EC%99%80-sorted/
+    #spots의 객체 하나 spot을 람다함수에 입력받아 spot.get(keyword)를 호출하고,
+    #키워드에 맞는 값을 기준으로 sort
+    spots = sorted(spots, key=lambda spot: spot.get(keyword))
+    return spots
 
 # 각 단계별로 테스트 (테스트할때 주석해제 후 사용)
 if __name__ == '__main__':
