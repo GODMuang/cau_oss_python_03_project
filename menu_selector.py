@@ -1,4 +1,23 @@
+"""
+프로그램에서 사용자와 상호작용하기 위한 UI(User Interface)를 제공하는 모듈
+
+start_process 함수만 존재하며,
+ 이를 이용하여 프로그램의 동작을 선택할 수 있습니다.
+"""
+import file_manager
+import parking_spot_manager
 def start_process(path):
+    """
+    프로그램의 동작을 선택하는 함수
+    Args:
+        path(string) : 분석할 데이터의 경로
+    Returns:
+        없음
+    Examples:
+        start_process("./input/free_parking_spot_seoul.csv") # 해당 경로의 데이터를 분석
+    """
+    classStr = file_manager.read_file(path) #파일을 읽어 스트링 받아오기
+    classList = parking_spot_manager.str_list_to_class_list(classStr) #스트링으로 클래스 생성
     while True:
         print("---menu---")
         print("[1] print")
@@ -6,10 +25,12 @@ def start_process(path):
         print("[3] sort")
         print("[4] exit")
         select = int(input('type:'))
-        if select == 1:
-            print("not implemented yet")
-            # fill this block
-        elif select == 2:
+        # print
+        if select == 1: 
+            parking_spot_manager.print_spots(classList)
+
+        # filter
+        elif select == 2: 
             print("---filter by---")
             print("[1] name")
             print("[2] city")
@@ -42,6 +63,8 @@ def start_process(path):
                 # fill this block
             else:
                 print("invalid input")
+        
+        #sort
         elif select == 3:
             keywords = ['name', 'city', 'district', 'ptype', 'latitude', 'longitude']
             print("---sort by---")
@@ -51,8 +74,10 @@ def start_process(path):
                 print("not implemented yet")
                 # fill this block
             else: print("invalid input")
+
+        #exit
         elif select == 4:
-            print("not implemented yet")
-            # fill this block
+            print("Exit")
+            break
         else:
             print("invalid input")
